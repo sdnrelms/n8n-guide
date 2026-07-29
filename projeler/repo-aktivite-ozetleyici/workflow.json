@@ -137,7 +137,7 @@
         "rule": {
           "interval": [
             {
-              "field": "seconds"
+              "triggerAtHour": 7
             }
           ]
         }
@@ -226,7 +226,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "5cef9d10-d082-4aa5-a942-cb66ae04bee9",
+  "versionId": "37a11966-37e9-48c1-831a-07a6c30612ca",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "28796d3c7d4041752cf28d73f45726c9857ab589d31f6e8c74e4edd3a9f69613"
