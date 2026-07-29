@@ -1,0 +1,236 @@
+{
+  "name": "Repo Aktivite Özetleyici",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        80
+      ],
+      "id": "b88e1a05-b186-450c-821d-f3ec9cf98b5d",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/sdnrelms/netprobe_reliable_udp_protocol/commits",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "per_page",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3df64528-b400-4fa5-a949-6e143e15222f",
+      "name": "HTTP Request",
+      "credentials": {
+        "githubApi": {
+          "id": "RmdSm1ePRBpTL2tf",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.prompt }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "31fb86da-eefb-424b-80e3-660a45eddf01",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "yKnNo1H6S8BrzEj6",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const commits = $input.all();\n\nconst commitListesi = commits.map(item => {\n  const msg = item.json.commit.message;\n  const author = item.json.commit.author.name;\n  const date = item.json.commit.author.date;\n  return `- [${date}] ${author}: ${msg}`;\n}).join('\\n');\n\nconst prompt = `Aşağıda bir GitHub reposundaki son commit'lerin listesi var. Bunları kısa, akıcı bir Türkçe paragraf halinde özetle. Kimin ne yaptığını ve genel gelişmeyi vurgula:\\n\\n${commitListesi}`;\n\nreturn [{ json: { prompt, repoAdi: \"netprobe_reliable_udp_protocol\" } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "74cc07d3-3204-4167-9060-0c54e6323239",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $json.content?.parts?.[0]?.text || $json.parts?.[0]?.text;\n\nreturn [{\n  json: {\n    repo_adi: $('Code').first().json.repoAdi,\n    ozet: output\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        944,
+        0
+      ],
+      "id": "93938296-b1a3-4aaf-97a9-31f9091b9b9d",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "tableId": "repo-ozetleri",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "repo_adi",
+              "fieldValue": "={{ $json.repo_adi }}"
+            },
+            {
+              "fieldId": "ozet",
+              "fieldValue": "={{ $json.ozet }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        0
+      ],
+      "id": "e4131148-30d9-4d13-8308-d26668b441e7",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "bv4TbkT22lr2Z7y3",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        -64
+      ],
+      "id": "5325717b-64bf-4013-bb03-79467ac09982",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5cef9d10-d082-4aa5-a942-cb66ae04bee9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "28796d3c7d4041752cf28d73f45726c9857ab589d31f6e8c74e4edd3a9f69613"
+  },
+  "id": "MIJI0oakod05zcDu",
+  "tags": []
+}
