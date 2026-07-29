@@ -1,3 +1,14 @@
+![n8n](https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Status](https://img.shields.io/badge/status-actively%20learning-brightgreen?style=for-the-badge)
+
+![Azure DevOps](https://img.shields.io/badge/Azure%20DevOps-0078D7?style=flat-square&logo=azuredevops&logoColor=white)
+![Gmail](https://img.shields.io/badge/Gmail-D14836?style=flat-square&logo=gmail&logoColor=white)
+![Telegram](https://img.shields.io/badge/Telegram-26A5E4?style=flat-square&logo=telegram&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=flat-square&logo=googlegemini&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
+
 # n8n Guide
 
 Bu repo, n8n öğrenirken tuttuğum notlardan oluşuyor. 
@@ -13,7 +24,7 @@ Temel mantık şöyle:
 - Node'ları birbirine bağlayarak görsel bir akış (workflow) oluşturursun
 - Bir **Trigger** (tetikleyici) — zamanlanmış görev, webhook, manuel çalıştırma vs. — workflow'u başlatır
 - Kod yazmadan da çok şey yapılabilir, ama gerektiğinde **Code node** ile JavaScript de yazabilirsin
-- 
+  
 Örnek: "Her Cuma saat 17:00'de Azure DevOps'tan o hafta kapanan işleri çek, özet çıkar, Gmail ile ekibe gönder" gibi bir akışı kod yazmadan, sadece node'ları sürükleyip bağlayarak kurabilirsin.
 
 Daha günlük bir örnek: "Bir web sitesindeki form doldurulduğunda, gelen bilgileri otomatik olarak bir Google Sheets tablosuna kaydet, aynı anda başvuran kişiye onay e-postası gönder, ekibe de Telegram'dan bildirim düş" — bunun gibi bir akış da yine kod yazmadan, birkaç node'u birbirine bağlayarak kurulabilir.
