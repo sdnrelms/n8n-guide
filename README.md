@@ -59,7 +59,7 @@ Daha günlük bir örnek: "Bir web sitesindeki form doldurulduğunda, gelen bilg
 
 | Proje | Açıklama |
 |---|---|
-| _(yakında eklenecek)_ | Öğrendiklerimi kullanarak yaptığım küçük otomasyonlar burada olacak |
+| _(yaptıkça ekleniyor)_ | Öğrendiklerimi kullanarak yaptığım küçük otomasyonlar burada olacak |
 
 ## Klasör Yapısı
 ```
