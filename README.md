@@ -59,7 +59,12 @@ Daha günlük bir örnek: "Bir web sitesindeki form doldurulduğunda, gelen bilg
 
 | Proje | Açıklama |
 |---|---|
-| _(yaptıkça ekleniyor)_ | Öğrendiklerimi kullanarak yaptığım küçük otomasyonlar burada olacak |
+| _feature-pbi-rollup-tfs_ | Feature effort ve remaining değerlerini anlık olarak uygun kural kapsamında güncelleme |
+| _pbi-committed-verifier-bildirimi_ | PBI "Committed" state'e çekildiğinde verifier kişisini etiketleyerek yorum yazma |
+| _pbi-otomatik-state-guncelleme_ | PBI "Tested But Not Done" state'indeyken tüm childleri "Done" ya da "Committed" olduğunda state'inin güncellenmesi |
+| _repo-aktivite-ozetleyici_ | GitHub reposundaki commit'lerin çekilip, Gemini ile özetlenip Supabase'e kaydedilmesi |
+| _sprint-surum-guncelleme_ | Sprint sonu tüm sürümlerin kontrolü ve güncellenmesi |
+| _(yaptıkça ekleniyor)_ | Öğrendiklerimi kullanarak yaptığım küçük otomasyonlar burada |
 
 ## Klasör Yapısı
 ```
